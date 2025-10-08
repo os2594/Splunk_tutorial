@@ -23,7 +23,7 @@ USER $SPLUNK_USER
 WORKDIR $SPLUNK_HOME
 
 # Download and install Splunk
-RUN wget -O splunk.tgz 'https://download.splunk.com/products/splunk/releases/$SPLUNK_VERSION/linux/splunk-$SPLUNK_VERSION-Linux-x86_64.tgz' && \
+RUN wget -O splunk.tgz 'wget -O splunkforwarder-10.0.1-c486717c322b-linux-amd64.tgz "https://download.splunk.com/products/universalforwarder/releases/10.0.1/linux/splunkforwarder-10.0.1-c486717c322b-linux-amd64.tgz' && \
     tar -xzf splunk.tgz --strip-components=1 && \
     rm splunk.tgz
 
