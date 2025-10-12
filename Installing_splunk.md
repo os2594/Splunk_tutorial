@@ -6,7 +6,7 @@
 2. Click on `Free Splunk` on top right, click on `Download Free 60-day-Trial` under `Splunk Enterprise` and copy the wget link under `Linux .tgz`   installation package.
 
    ![img](images/copying_wget_link.png)
-3. Open the terminal icon above to open a terminal and run the following commands:
+3. Press on the terminal icon above to open a terminal and run the following commands:
 
    1. `sudo apt install wget` to install the wget package
 
