@@ -14,11 +14,32 @@ ENV OPTIMISTIC_ABOUT_FILE_LOCKING=1
 # Putting this in the parent image will cause a black screen, I tried. Without it the screen will lock after 5 minutes of inactive use, users will be unable to log back in to the machine
 RUN mkdir -p /home/vncuser/.config/xfce4/xfconf/xfce-perchannel-xml
 
+
 # Ensure the required packages are installed
-RUN apt-get update && apt-get install -y wget tar vim sudo 
+RUN apt-get update && apt-get install -y wget tar vim sudo && \
+    apt-get clean && rm -rf /var/lib/apt/lists/*
 
 # Switch to the /opt directory
 WORKDIR /opt
+
+# Copy the Splunk installation package's wget link here
+# Replace '<wget_link>' with the actual wget link from Splunk's website
+RUN wget -O splunk.tgz <wget_link> && \
+    tar -xzvf splunk.tgz && \
+    rm splunk.tgz
+
+# Modify splunk-launch.conf to include optimistic file locking
+RUN echo "OPTIMISTIC_ABOUT_FILE_LOCKING = 1" >> /opt/splunk/etc/splunk-launch.conf
+
+# Set permissions for Splunk files and directories
+RUN chown -R vncuser:vncuser /opt/splunk
+
+# Expose the default Splunk web and management ports
+EXPOSE 8000 8089
+
+# Start Splunk on container startup
+ENTRYPOINT ["/opt/splunk/bin/splunk", "start", "--accept-license", "--answer-yes", "--no-prompt"]
+----
 
 # Download and install Splunk
 RUN wget -O splunk.tgz 'wget -O splunkforwarder-10.0.1-c486717c322b-linux-amd64.tgz "https://download.splunk.com/products/universalforwarder/releases/10.0.1/linux/splunkforwarder-10.0.1-c486717c322b-linux-amd64.tgz' && \
