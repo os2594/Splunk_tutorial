@@ -8,16 +8,12 @@ FROM matrixregistry.azurecr.io/base_images/kali_base:latest
 #This tells debian that we are not in an interactive TTY and supresses garbage related to that.
 ENV DEBIAN_FRONTEND=noninteractive
 # Environment variables
-ENV DEBIAN_FRONTEND=noninteractive
 ENV SPLUNK_HOME=/opt/splunk
 ENV OPTIMISTIC_ABOUT_FILE_LOCKING=1
 
-
-
 # Putting this in the parent image will cause a black screen, I tried. Without it the screen will lock after 5 minutes of inactive use, users will be unable to log back in to the machine
 RUN mkdir -p /home/vncuser/.config/xfce4/xfconf/xfce-perchannel-xml
-# Create a splunk user
-RUN useradd -m -d $SPLUNK_HOME -s /bin/bash $SPLUNK_USER
+
 
 # Switch to splunk user
 USER $SPLUNK_USER
