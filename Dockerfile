@@ -22,9 +22,8 @@ RUN apt-get update && apt-get install -y wget tar vim sudo && \
 # Switch to the /opt directory
 WORKDIR /opt
 
-# Copy the Splunk installation package's wget link here
-# Replace '<wget_link>' with the actual wget link from Splunk's website
-RUN wget -O splunk.tgz <wget_link> && \
+# Splunk installation package's wget link here
+RUN wget -O splunk.tgz 'wget -O splunkforwarder-10.0.1-c486717c322b-linux-amd64.tgz "https://download.splunk.com/products/universalforwarder/releases/10.0.1/linux/splunkforwarder-10.0.1-c486717c322b-linux-amd64.tgz' && \
     tar -xzvf splunk.tgz && \
     rm splunk.tgz
 
@@ -39,15 +38,7 @@ EXPOSE 8000 8089
 
 # Start Splunk on container startup
 ENTRYPOINT ["/opt/splunk/bin/splunk", "start", "--accept-license", "--answer-yes", "--no-prompt"]
-----
 
-# Download and install Splunk
-RUN wget -O splunk.tgz 'wget -O splunkforwarder-10.0.1-c486717c322b-linux-amd64.tgz "https://download.splunk.com/products/universalforwarder/releases/10.0.1/linux/splunkforwarder-10.0.1-c486717c322b-linux-amd64.tgz' && \
-    tar -xzf splunk.tgz --strip-components=1 && \
-    rm splunk.tgz
-
-# Set permissions
-RUN chown -R $SPLUNK_USER:$SPLUNK_USER $SPLUNK_HOME
 
 COPY xfce4-screensaver.xml /home/vncuser/.config/xfce4/xfconf/xfce-perchannel-xml/xfce4-screensaver.xml
 
