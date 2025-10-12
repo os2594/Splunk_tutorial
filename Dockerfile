@@ -8,9 +8,10 @@ FROM matrixregistry.azurecr.io/base_images/kali_base:latest
 #This tells debian that we are not in an interactive TTY and supresses garbage related to that.
 ENV DEBIAN_FRONTEND=noninteractive
 # Environment variables
-ENV SPLUNK_VERSION=latest
+ENV DEBIAN_FRONTEND=noninteractive
 ENV SPLUNK_HOME=/opt/splunk
-ENV SPLUNK_USER=splunk
+ENV OPTIMISTIC_ABOUT_FILE_LOCKING=1
+
 
 
 # Putting this in the parent image will cause a black screen, I tried. Without it the screen will lock after 5 minutes of inactive use, users will be unable to log back in to the machine
