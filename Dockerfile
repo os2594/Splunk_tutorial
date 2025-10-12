@@ -14,10 +14,11 @@ ENV OPTIMISTIC_ABOUT_FILE_LOCKING=1
 # Putting this in the parent image will cause a black screen, I tried. Without it the screen will lock after 5 minutes of inactive use, users will be unable to log back in to the machine
 RUN mkdir -p /home/vncuser/.config/xfce4/xfconf/xfce-perchannel-xml
 
+# Ensure the required packages are installed
+RUN apt-get update && apt-get install -y wget tar vim sudo 
 
-# Switch to splunk user
-USER $SPLUNK_USER
-WORKDIR $SPLUNK_HOME
+# Switch to the /opt directory
+WORKDIR /opt
 
 # Download and install Splunk
 RUN wget -O splunk.tgz 'wget -O splunkforwarder-10.0.1-c486717c322b-linux-amd64.tgz "https://download.splunk.com/products/universalforwarder/releases/10.0.1/linux/splunkforwarder-10.0.1-c486717c322b-linux-amd64.tgz' && \
